@@ -31,10 +31,10 @@ services:
 
   redis:
     image: redis:7-alpine
-    command: redis-server /etc/redis.conf
+    command: redis-server /etc/redis.yaml
     restart: unless-stopped
     volumes:
-      - ./redis.conf:/etc/redis.conf
+      - ./redis.yaml:/etc/redis.yaml
       - redis_data:/data
 
 volumes:
