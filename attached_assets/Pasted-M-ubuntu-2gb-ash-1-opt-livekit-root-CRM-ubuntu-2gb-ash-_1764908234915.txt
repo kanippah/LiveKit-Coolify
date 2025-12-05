@@ -1,0 +1,43 @@
+M-ubuntu-2gb-ash-1:/opt/livekit#
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit#
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# git pull
+remote: Enumerating objects: 20, done.
+remote: Counting objects: 100% (20/20), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 17 (delta 11), reused 17 (delta 11), pack-reused 0 (from 0)
+Unpacking objects: 100% (17/17), 20.73 KiB | 5.18 MiB/s, done.
+From https://github.com/kanippah/LiveKit-Coolify
+   67f3e96..739c242  main       -> origin/main
+Updating 67f3e96..739c242
+Fast-forward
+ ...25-Dec-05-03-52-34-638590-Starting-deployment-of-kani_1764906778242.txt |  84 ++++++++++++++++++++++++++++++++++
+ ...ot-CRM-ubuntu-2gb-ash-1-opt-livekit-cd-opt-livekit-ro_1764907967381.txt |  31 +++++++++++++
+ ...ot-CRM-ubuntu-2gb-ash-1-opt-livekit-sudo-apt-install-_1764907849958.txt |  54 ++++++++++++++++++++++
+ attached_assets/image_1764907154504.png                                    | Bin 0 -> 16945 bytes
+ livekit.yaml                                                               |   4 --
+ 5 files changed, 169 insertions(+), 4 deletions(-)
+ create mode 100644 attached_assets/Pasted-2025-Dec-05-03-52-34-638590-Starting-deployment-of-kani_1764906778242.txt
+ create mode 100644 attached_assets/Pasted-root-CRM-ubuntu-2gb-ash-1-opt-livekit-cd-opt-livekit-ro_1764907967381.txt
+ create mode 100644 attached_assets/Pasted-root-CRM-ubuntu-2gb-ash-1-opt-livekit-sudo-apt-install-_1764907849958.txt
+ create mode 100644 attached_assets/image_1764907154504.png
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose down -v
+Stopping livekit_livekit_1 ... done
+Stopping livekit_redis_1   ... done
+Removing livekit_livekit_1 ... done
+Removing livekit_redis_1   ... done
+Removing network livekit_default
+Removing volume livekit_redis_data
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose up -d
+Creating network "livekit_default" with the default driver
+Creating volume "livekit_redis_data" with default driver
+Creating livekit_redis_1 ... done
+Creating livekit_livekit_1 ... done
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose logs livekit
+Attaching to livekit_livekit_1
+livekit_1  | 2025-12-05T04:16:57.627Z   INFO    livekit redis/redis.go:144      connecting to redis     {"simple": true, "addr": "redis:6379"}
+livekit_1  | 2025-12-05T04:16:57.684Z   INFO    livekit rtcconfig/ip.go:195     found external IP via STUN      {"localAddr": "172.18.0.3:54319", "stunServer": "global.stun.twilio.com:3478", "externalIP": "178.156.183.51"}
+livekit_1  | 2025-12-05T04:17:02.632Z   WARN    livekit rtcconfig/ip.go:278     could not validate external IP  {"ip": "178.156.183.51", "from": "172.18.0.3:54319", "error": "context canceled"}
+livekit_1  | 2025-12-05T04:17:02.635Z   INFO    livekit rtcconfig/webrtc_config.go:284  failed to get external ip    {"local": "172.18.0.3", "err": "context canceled"}
+livekit_1  | 2025-12-05T04:17:02.635Z   INFO    livekit rtcconfig/webrtc_config.go:99   no external IPs found, using node IP for NAT1To1Ips  {"ip": "178.156.183.51"}
+livekit_1  | 2025-12-05T04:17:02.637Z   INFO    livekit service/server.go:264   starting LiveKit server {"portHttp": 7880, "nodeID": "ND_Z8D6Rv6W827r", "nodeIP": "178.156.183.51", "version": "1.9.6", "bindAddresses": ["0.0.0.0"], "rtc.portTCP": 7881, "rtc.portICERange": [50000, 60000]}
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit#
