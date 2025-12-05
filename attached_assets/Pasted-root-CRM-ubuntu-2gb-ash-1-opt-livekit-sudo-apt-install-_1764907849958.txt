@@ -1,0 +1,54 @@
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# sudo apt install -y docker-compose
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+docker-compose is already the newest version (1.29.2-6ubuntu1).
+0 upgraded, 0 newly installed, 0 to remove and 63 not upgraded.
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose up -d
+Creating network "livekit_default" with the default driver
+Creating volume "livekit_redis_data" with default driver
+Pulling redis (redis:7-alpine)...
+7-alpine: Pulling from library/redis
+f637881d1138: Pull complete
+60c57c0072ef: Pull complete
+fc4343b4accd: Pull complete
+380e8aa8b1fd: Pull complete
+c70aae7b5e0d: Pull complete
+232f7549c9b0: Pull complete
+4f4fb700ef54: Pull complete
+d75b3becd998: Pull complete
+Digest: sha256:ee64a64eaab618d88051c3ade8f6352d11531fcf79d9a4818b9b183d8c1d18ba
+Status: Downloaded newer image for redis:7-alpine
+Pulling livekit (livekit/livekit-server:latest)...
+latest: Pulling from livekit/livekit-server
+2d35ebdb57d9: Pull complete
+d570b867ef4f: Pull complete
+Digest: sha256:d913bd45455a94dd00093ad9265ab6e547ddc60ace8db5645155b9c97a2b0684
+Status: Downloaded newer image for livekit/livekit-server:latest
+Creating livekit_redis_1 ... done
+Creating livekit_livekit_1 ... done
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose ps
+      Name                     Command                 State       Ports
+--------------------------------------------------------------------------
+livekit_livekit_1   /livekit-server --config / ...   Restarting
+livekit_redis_1     docker-entrypoint.sh redis ...   Up           6379/tcp
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose logs
+Attaching to livekit_livekit_1, livekit_redis_1
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+redis_1    | 1:C 05 Dec 2025 04:10:07.560 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit#
