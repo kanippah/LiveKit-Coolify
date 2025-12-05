@@ -66,14 +66,10 @@ def check_docker_compose(data):
             issues.append("Missing 'livekit' service")
         else:
             livekit = services['livekit']
+            if 'image' not in livekit:
+                issues.append("Missing 'image' in livekit service (should use pre-built image)")
             if 'environment' not in livekit:
                 issues.append("Missing 'environment' in livekit service")
-            elif isinstance(livekit['environment'], list):
-                env_vars = [e.split('=')[0] if '=' in e else e.split(':')[0].replace('${', '').replace('}', '') for e in livekit['environment']]
-                if 'LIVEKIT_API_KEY' not in str(livekit['environment']):
-                    issues.append("LIVEKIT_API_KEY not configured in environment")
-                if 'LIVEKIT_API_SECRET' not in str(livekit['environment']):
-                    issues.append("LIVEKIT_API_SECRET not configured in environment")
         
         if 'redis' not in services:
             issues.append("Missing 'redis' service")
@@ -91,15 +87,22 @@ def main():
     # Check required files
     print("Checking required files...")
     files_to_check = [
-        ('Dockerfile', 'Custom Docker image'),
-        ('entrypoint.sh', 'Startup script'),
         ('livekit.yaml.template', 'Config template'),
+        ('docker-compose.yml', 'Compose file'),
         ('.env.example', 'Example environment file'),
     ]
     
     for filepath, description in files_to_check:
         if not check_file_exists(filepath, description):
             all_valid = False
+    print()
+    
+    # Check that Dockerfile does NOT exist (we removed it)
+    print("Checking build setup...")
+    if Path('Dockerfile').exists():
+        print("  ⚠ WARNING: Dockerfile exists but shouldn't be needed (using pre-built image)")
+    else:
+        print("  ✓ No Dockerfile (using pre-built image)")
     print()
     
     # Validate livekit.yaml.template
@@ -149,15 +152,15 @@ def main():
     if all_valid:
         print("✓ All configuration files are valid!")
         print()
-        print("Your credentials are secure:")
-        print("  - API key/secret are NOT in the repository")
-        print("  - They will be injected via environment variables")
+        print("Your setup is optimized:")
+        print("  - Using pre-built LiveKit image (no build needed)")
+        print("  - Deployment time: ~2-5 minutes")
+        print("  - Credentials injected via environment variables")
         print()
         print("Next steps:")
         print("  1. Push to GitHub")
-        print("  2. Create app in Coolify (Docker Compose type)")
-        print("  3. Set LIVEKIT_API_KEY and LIVEKIT_API_SECRET in Coolify")
-        print("  4. Deploy!")
+        print("  2. In Coolify, set environment variables")
+        print("  3. Deploy!")
     else:
         print("✗ Configuration has errors. Please fix them before deployment.")
     print("=" * 60)

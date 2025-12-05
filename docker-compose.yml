@@ -2,17 +2,23 @@ version: "3.9"
 
 services:
   livekit:
-    build: .
+    image: livekit/livekit-server:latest
     restart: unless-stopped
     environment:
       - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
       - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+    volumes:
+      - ./livekit.yaml.template:/etc/livekit.yaml.template:ro
     depends_on:
       - redis
     ports:
       - "7880:7880/tcp"
       - "7881:7881/tcp"
       - "50000-60000:50000-60000/udp"
+    command: >
+      sh -c "sed 's|$${LIVEKIT_API_KEY}|'$$LIVEKIT_API_KEY'|g; s|$${LIVEKIT_API_SECRET}|'$$LIVEKIT_API_SECRET'|g' 
+             /etc/livekit.yaml.template > /etc/livekit.yaml && 
+             livekit-server --config /etc/livekit.yaml"
 
   redis:
     image: redis:6-alpine

@@ -4,10 +4,8 @@ This repository contains the configuration files for deploying a production-read
 
 ## Files
 
-- `Dockerfile` - Custom image that injects credentials at runtime
-- `docker-compose.yml` - Docker Compose deployment configuration
+- `docker-compose.yml` and `docker-compose.yaml` - Docker Compose deployment configuration
 - `livekit.yaml.template` - LiveKit config template with environment variable placeholders
-- `entrypoint.sh` - Startup script that generates config from environment variables
 - `.env.example` - Example environment variables file
 
 ## Security
@@ -39,18 +37,18 @@ livekit.yourdomain.com → YOUR_SERVER_IP
 2. Select Git Repository
 3. Enter your GitHub repo URL
 4. Set type: **Docker Compose**
-5. Set Compose file path: `docker-compose.yml`
+5. Set Compose file path: `docker-compose.yml` or `docker-compose.yaml`
 
 ### 4. Set Environment Variables in Coolify
 
 In your Coolify application settings, add these environment variables:
 
 ```
-LIVEKIT_API_KEY=myApiKey
-LIVEKIT_API_SECRET=myVeryLongAndSecureSecretValue123
+LIVEKIT_API_KEY=livekit_2687edd1c05cfb2b
+LIVEKIT_API_SECRET=ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8
 ```
 
-**Generate secure values:**
+**Generate your own secure values:**
 - API Key: Any identifier you want (e.g., `prod_key`, `my_app`)
 - API Secret: Use a long random string (32+ characters recommended)
 
@@ -62,9 +60,8 @@ openssl rand -base64 32
 ### 5. Configure Domain & SSL
 
 1. In Coolify, go to Domains
-2. Add: `livekit.yourdomain.com`
-3. Set internal port: `7880`
-4. Enable HTTPS via Let's Encrypt
+2. Add: `livekit.yourdomain.com` (without port)
+3. Enable HTTPS via Let's Encrypt
 
 ### 6. Firewall Configuration
 
@@ -79,9 +76,7 @@ sudo ufw allow 50000:60000/udp
 
 ### 7. Deploy
 
-Click Deploy in Coolify and monitor the logs. You should see:
-- Redis starting
-- LiveKit server starting with your injected configuration
+Click Deploy in Coolify. The deployment should complete in 2-5 minutes (no build required).
 
 ## Your LiveKit Endpoint
 
@@ -99,6 +94,16 @@ Use this URL along with your API key and secret to connect your applications.
 | 7880 | TCP | Main signaling port |
 | 7881 | TCP | TCP fallback for signaling |
 | 50000-60000 | UDP | Media ports for WebRTC |
+
+## How It Works
+
+1. When docker-compose starts, it uses the official LiveKit image (no build needed)
+2. The `entrypoint` command in docker-compose.yml:
+   - Reads your environment variables
+   - Substitutes them into the config template
+   - Starts the LiveKit server with your credentials
+
+This approach is **fast** because there's no custom Docker image to build.
 
 ## Local Testing (Optional)
 
