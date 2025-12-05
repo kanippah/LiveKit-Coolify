@@ -9,16 +9,31 @@ This is a configuration repository for deploying a self-hosted LiveKit server on
 - Push to GitHub for Coolify deployment
 
 ## Project Structure
-- `livekit.yaml` - LiveKit server configuration
-- `docker-compose.yml` - Docker Compose deployment file
-- `README.md` - Deployment documentation
+```
+├── Dockerfile              # Custom image with credential injection
+├── docker-compose.yml      # Docker Compose deployment file
+├── livekit.yaml.template   # Config template with env var placeholders
+├── entrypoint.sh           # Startup script that generates config
+├── .env.example            # Example environment variables
+├── validate_config.py      # Configuration validation script
+└── README.md               # Deployment documentation
+```
 
-## Important Notes
-- This is a configuration-only project (no local runtime)
-- Files will be pushed to GitHub and pulled by Coolify
-- Update API credentials in `livekit.yaml` before deployment
-- The server runs on Coolify, not in Replit
+## Security Model
+Credentials are injected at runtime via environment variables:
+- `LIVEKIT_API_KEY` - API key identifier
+- `LIVEKIT_API_SECRET` - Secret value for token generation
+
+These are set in Coolify, NOT in the repository.
+
+## Validation
+Run `python validate_config.py` to check all configuration files.
 
 ## Deployment Target
 - Platform: Coolify (Docker Compose)
 - Expected endpoint: `wss://livekit.yourdomain.com`
+
+## Important Notes
+- Never commit `.env` files
+- Set credentials in Coolify environment variables
+- The livekit.yaml is generated at container startup from the template

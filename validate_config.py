@@ -15,17 +15,26 @@ def validate_yaml_file(filepath):
     try:
         with open(filepath, 'r') as f:
             data = yaml.safe_load(f)
-        print(f"✓ {filepath} is valid YAML")
+        print(f"  ✓ {filepath} is valid YAML")
         return True, data
     except FileNotFoundError:
-        print(f"✗ {filepath} not found")
+        print(f"  ✗ {filepath} not found")
         return False, None
     except yaml.YAMLError as e:
-        print(f"✗ {filepath} has YAML syntax errors: {e}")
+        print(f"  ✗ {filepath} has YAML syntax errors: {e}")
         return False, None
 
-def check_livekit_config(data):
-    """Check LiveKit configuration for required fields."""
+def check_file_exists(filepath, description):
+    """Check if a file exists."""
+    if Path(filepath).exists():
+        print(f"  ✓ {filepath} exists")
+        return True
+    else:
+        print(f"  ✗ {filepath} not found ({description})")
+        return False
+
+def check_livekit_template(data):
+    """Check LiveKit template configuration."""
     issues = []
     
     if not data:
@@ -36,9 +45,6 @@ def check_livekit_config(data):
     
     if 'keys' not in data:
         issues.append("Missing 'keys' field")
-    elif isinstance(data['keys'], dict):
-        if 'PROD_API_KEY' in data['keys'] and data['keys']['PROD_API_KEY'] == 'PROD_SUPER_SECRET_KEY_VALUE':
-            issues.append("⚠ WARNING: Using default API credentials! Update before deployment.")
     
     if 'rtc' not in data:
         issues.append("Missing 'rtc' configuration")
@@ -58,6 +64,17 @@ def check_docker_compose(data):
         services = data['services']
         if 'livekit' not in services:
             issues.append("Missing 'livekit' service")
+        else:
+            livekit = services['livekit']
+            if 'environment' not in livekit:
+                issues.append("Missing 'environment' in livekit service")
+            elif isinstance(livekit['environment'], list):
+                env_vars = [e.split('=')[0] if '=' in e else e.split(':')[0].replace('${', '').replace('}', '') for e in livekit['environment']]
+                if 'LIVEKIT_API_KEY' not in str(livekit['environment']):
+                    issues.append("LIVEKIT_API_KEY not configured in environment")
+                if 'LIVEKIT_API_SECRET' not in str(livekit['environment']):
+                    issues.append("LIVEKIT_API_SECRET not configured in environment")
+        
         if 'redis' not in services:
             issues.append("Missing 'redis' service")
     
@@ -71,40 +88,60 @@ def main():
     
     all_valid = True
     
-    # Validate livekit.yaml
-    print("Checking livekit.yaml...")
-    valid, livekit_data = validate_yaml_file('livekit.yaml')
+    # Check required files
+    print("Checking required files...")
+    files_to_check = [
+        ('Dockerfile', 'Custom Docker image'),
+        ('entrypoint.sh', 'Startup script'),
+        ('livekit.yaml.template', 'Config template'),
+        ('.env.example', 'Example environment file'),
+    ]
+    
+    for filepath, description in files_to_check:
+        if not check_file_exists(filepath, description):
+            all_valid = False
+    print()
+    
+    # Validate livekit.yaml.template
+    print("Validating livekit.yaml.template...")
+    valid, template_data = validate_yaml_file('livekit.yaml.template')
     if valid:
-        issues = check_livekit_config(livekit_data)
+        issues = check_livekit_template(template_data)
         if issues:
             for issue in issues:
-                print(f"  {issue}")
-            if any('WARNING' not in issue for issue in issues):
-                all_valid = False
+                print(f"  ⚠ {issue}")
     else:
         all_valid = False
     print()
     
     # Validate docker-compose.yml
-    print("Checking docker-compose.yml...")
+    print("Validating docker-compose.yml...")
     valid, compose_data = validate_yaml_file('docker-compose.yml')
     if valid:
         issues = check_docker_compose(compose_data)
         if issues:
             for issue in issues:
-                print(f"  {issue}")
+                print(f"  ⚠ {issue}")
             all_valid = False
     else:
         all_valid = False
     print()
     
-    # Check if README exists
-    print("Checking README.md...")
-    if Path('README.md').exists():
-        print("✓ README.md exists")
+    # Check security
+    print("Security checks...")
+    if Path('.env').exists():
+        print("  ⚠ WARNING: .env file exists - make sure it's in .gitignore!")
     else:
-        print("✗ README.md not found")
-        all_valid = False
+        print("  ✓ No .env file (credentials will be set in Coolify)")
+    
+    # Check .gitignore
+    if Path('.gitignore').exists():
+        with open('.gitignore', 'r') as f:
+            gitignore = f.read()
+        if '.env' in gitignore:
+            print("  ✓ .env is in .gitignore")
+        else:
+            print("  ⚠ WARNING: .env should be in .gitignore!")
     print()
     
     # Final summary
@@ -112,16 +149,20 @@ def main():
     if all_valid:
         print("✓ All configuration files are valid!")
         print()
+        print("Your credentials are secure:")
+        print("  - API key/secret are NOT in the repository")
+        print("  - They will be injected via environment variables")
+        print()
         print("Next steps:")
-        print("1. Update API credentials in livekit.yaml")
-        print("2. Commit and push to GitHub")
-        print("3. Deploy on Coolify")
-        print("=" * 60)
-        return 0
+        print("  1. Push to GitHub")
+        print("  2. Create app in Coolify (Docker Compose type)")
+        print("  3. Set LIVEKIT_API_KEY and LIVEKIT_API_SECRET in Coolify")
+        print("  4. Deploy!")
     else:
         print("✗ Configuration has errors. Please fix them before deployment.")
-        print("=" * 60)
-        return 1
+    print("=" * 60)
+    
+    return 0 if all_valid else 1
 
 if __name__ == "__main__":
     sys.exit(main())

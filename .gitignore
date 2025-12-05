@@ -1,6 +1,8 @@
-# Environment files
+# Environment files - NEVER commit these!
 .env
 .env.local
+.env.production
+.env.development
 
 # Logs
 *.log
