@@ -1,51 +1,72 @@
-# LiveKit Server on Coolify
+# LiveKit Server
 
-Deploy a production LiveKit server using Coolify.
+Production-ready LiveKit WebRTC server on Coolify.
+
+## Files
+
+- `docker-compose.yml` - Main deployment config
+- `livekit.yaml` - LiveKit server configuration
+- `caddy.yaml` - HTTPS/reverse proxy (auto TLS)
+- `redis.conf` - Redis cache configuration
+- `.env.example` - Example environment variables
 
 ## Setup
 
-### 1. DNS
-Create an A record:
-```
-livekit.yourdomain.com → YOUR_SERVER_IP
-```
-
-### 2. Environment Variables in Coolify
-Set these in Coolify:
-```
-LIVEKIT_API_KEY=livekit_2687edd1c05cfb2b
-LIVEKIT_API_SECRET=ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8
+### 1. Update domain in caddy.yaml
+Replace `livekit.koaditech.com` with your domain:
+```yaml
+- host: ["your-domain.com"]
 ```
 
-### 3. Deploy
-Push to GitHub, then in Coolify:
-- Create new Docker Compose app
-- Set compose file path: `docker-compose.yml`
-- Set domain: `livekit.yourdomain.com`
-- Enable HTTPS
-- Deploy
+### 2. Update email in caddy.yaml
+Replace with your email for Let's Encrypt certificates:
+```yaml
+email: your-email@your-domain.com
+```
+
+### 3. Point DNS
+Create DNS A record:
+```
+your-domain.com → YOUR_SERVER_IP
+```
+
+### 4. Deploy to Coolify
+1. Push to GitHub
+2. Create Docker Compose app in Coolify
+3. Set compose file: `docker-compose.yml`
+4. Deploy
 
 ## Your Endpoint
 
 ```
-wss://livekit.yourdomain.com
+wss://your-domain.com
 ```
 
-Use the API key and secret to generate JWT tokens for your clients.
+Use API key/secret to generate JWT tokens:
+```
+API Key: livekit_2687edd1c05cfb2b
+API Secret: ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8
+```
 
-## Ports
+## Firewall Ports
 
-- 7880: Signaling (TCP)
-- 7881: Signaling fallback (TCP)
-- 50000-60000: Media (UDP)
+Open these on your VPS:
+- `80/tcp` - HTTP (TLS issuance)
+- `443/tcp` - HTTPS (WebSocket)
+- `443/udp` - TURN/UDP
+- `7881/tcp` - WebRTC over TCP
+- `50000-60000/udp` - WebRTC media
 
-## Firewall
+## Monitoring
 
-Open these ports on your VPS:
+Check logs on VPS:
 ```bash
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 7880/tcp
-sudo ufw allow 7881/tcp
-sudo ufw allow 50000:60000/udp
+docker compose logs livekit
+docker compose logs caddy
+```
+
+## Generate New API Keys
+
+```bash
+openssl rand -base64 32
 ```

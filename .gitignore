@@ -1,17 +1,27 @@
-# Environment files - NEVER commit these!
+# Secrets - NEVER commit
 .env
 .env.local
 .env.production
 .env.development
 
+# Caddy data
+caddy_data/
+
+# Redis data
+redis_data/
+
+# Docker
+docker-compose.override.yml
+
 # Logs
 *.log
 logs/
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Editor directories
+# IDE
 .vscode/
 .idea/
+*.swp

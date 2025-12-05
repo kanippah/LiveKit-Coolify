@@ -1,0 +1,14 @@
+http:
+  servers:
+    srv0:
+      listen:
+        - ":443"
+      routes:
+        - match:
+            - host: ["livekit.koaditech.com"]
+          handle:
+            - handler: reverse_proxy
+              upstreams:
+                - dial: livekit:7880
+      tls:
+        email: your-email@koaditech.com

@@ -1,27 +1,42 @@
 version: "3.9"
 
 services:
+  caddy:
+    image: livekit/caddyl4
+    command: run --config /etc/caddy.yaml --adapter yaml
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "7881:7881/tcp"
+      - "7882:7882/tcp"
+    volumes:
+      - ./caddy.yaml:/etc/caddy.yaml
+      - caddy_data:/data
+    depends_on:
+      - livekit
+
   livekit:
     image: livekit/livekit-server:latest
+    command: --config /etc/livekit.yaml
     restart: unless-stopped
-    environment:
-      - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
-      - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
-      - LIVEKIT_PORT=7880
-      - LIVEKIT_RTC_PORT=7881
-      - LIVEKIT_RTC_PORT_RANGE_START=50000
-      - LIVEKIT_RTC_PORT_RANGE_END=60000
-      - LIVEKIT_RTC_USE_EXTERNAL_IP=true
-      - LIVEKIT_REDIS_ADDRESS=redis:6379
-      - LIVEKIT_ROOM_AUTO_CREATE=true
+    ports:
+      - "7880:7880"
+      - "50000-60000:50000-60000/udp"
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
     depends_on:
       - redis
-    ports:
-      - "7880:7880/tcp"
-      - "7881:7881/tcp"
-      - "50000-60000:50000-60000/udp"
 
   redis:
-    image: redis:6-alpine
-    command: redis-server --save 60 1 --loglevel warning
+    image: redis:7-alpine
+    command: redis-server /etc/redis.conf
     restart: unless-stopped
+    volumes:
+      - ./redis.conf:/etc/redis.conf
+      - redis_data:/data
+
+volumes:
+  redis_data:
+  caddy_data:

@@ -1,0 +1,15 @@
+port: 7880
+
+rtc:
+  port_range_start: 50000
+  port_range_end: 60000
+  use_external_ip: true
+
+redis:
+  address: redis:6379
+
+keys:
+  livekit_2687edd1c05cfb2b: ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8
+
+logging:
+  level: info
