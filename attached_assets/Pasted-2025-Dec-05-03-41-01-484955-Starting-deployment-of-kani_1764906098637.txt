@@ -1,0 +1,80 @@
+2025-Dec-05 03:41:01.484955
+Starting deployment of kanippah/-live-kit--coolify:main-owgcs040c0cs48wcwkcwg4s0 to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 03:41:01.751047
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 03:41:01.910902
+[CMD]: docker stop --time=30 lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:01.910902
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 03:41:01.915118
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:02.060788
+[CMD]: docker rm -f lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:02.060788
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:02.253851
+[CMD]: docker run -d --network coolify --name lgg4c488s4ks8gk0cwoo80cc  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 03:41:02.253851
+5592873be5ff8d0e030a4980535bc8fd1e14bd9e5a1b69fdf5541fde66b686a1
+2025-Dec-05 03:41:02.901072
+[CMD]: docker exec lgg4c488s4ks8gk0cwoo80cc bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://github.com/kanippah/LiveKit-Coolify refs/heads/main'
+2025-Dec-05 03:41:02.901072
+ba99e6f2e1afb0c2cca62c815e64ac3b99319ff3	refs/heads/main
+2025-Dec-05 03:41:02.913696
+----------------------------------------
+2025-Dec-05 03:41:02.927221
+Importing kanippah/LiveKit-Coolify:main (commit sha ba99e6f2e1afb0c2cca62c815e64ac3b99319ff3) to /artifacts/lgg4c488s4ks8gk0cwoo80cc.
+2025-Dec-05 03:41:03.142475
+[CMD]: docker exec lgg4c488s4ks8gk0cwoo80cc bash -c 'git clone --depth=1 --recurse-submodules --shallow-submodules -b 'main' 'https://github.com/kanippah/LiveKit-Coolify' '/artifacts/lgg4c488s4ks8gk0cwoo80cc' && cd '/artifacts/lgg4c488s4ks8gk0cwoo80cc' && if [ -f .gitmodules ]; then sed -i "s#git@\(.*\):#https://\1/#g" '/artifacts/lgg4c488s4ks8gk0cwoo80cc'/.gitmodules || true && git submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive --depth=1; fi && cd '/artifacts/lgg4c488s4ks8gk0cwoo80cc' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2025-Dec-05 03:41:03.142475
+Cloning into '/artifacts/lgg4c488s4ks8gk0cwoo80cc'...
+2025-Dec-05 03:41:03.871376
+[CMD]: docker exec lgg4c488s4ks8gk0cwoo80cc bash -c 'cd /artifacts/lgg4c488s4ks8gk0cwoo80cc && git log -1 ba99e6f2e1afb0c2cca62c815e64ac3b99319ff3 --pretty=%B'
+2025-Dec-05 03:41:03.871376
+Convert configuration files to YAML format
+2025-Dec-05 03:41:03.871376
+2025-Dec-05 03:41:03.871376
+Renames docker-compose.yml to docker-compose.yaml and converts redis.conf to redis.yaml, ensuring all configuration files use the YAML format.
+2025-Dec-05 03:41:03.871376
+2025-Dec-05 03:41:03.871376
+Replit-Commit-Author: Agent
+2025-Dec-05 03:41:03.871376
+Replit-Commit-Session-Id: f4d82ec1-9636-4164-9cd7-ce68160616d4
+2025-Dec-05 03:41:03.871376
+Replit-Commit-Checkpoint-Type: full_checkpoint
+2025-Dec-05 03:41:03.871376
+Replit-Commit-Event-Id: 4b737443-bdde-485b-86ac-bcc44f48c77f
+2025-Dec-05 03:41:03.871376
+Replit-Helium-Checkpoint-Created: true
+2025-Dec-05 03:41:03.988411
+Starting deployment of kanippah/-live-kit--coolify:main-owgcs040c0cs48wcwkcwg4s0 to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 03:41:04.901204
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 03:41:05.377148
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 03:41:05.478798
+lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:06.083944
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:06.727773
+98d55c4c78a25c2e4b5cea48fca09e79c614513cb896964f7a920936de758324
+2025-Dec-05 03:41:07.432237
+[CMD]: docker exec lgg4c488s4ks8gk0cwoo80cc bash -c 'mkdir -p /artifacts/lgg4c488s4ks8gk0cwoo80cc'
+2025-Dec-05 03:41:07.432237
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:07.502922
+Oops something is not okay, are you okay? 😢
+2025-Dec-05 03:41:07.525618
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:07.564297
+Gracefully shutting down build container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:08.260534
+[CMD]: docker stop --time=30 lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:08.260534
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 03:41:08.267610
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:08.941023
+[CMD]: docker rm -f lgg4c488s4ks8gk0cwoo80cc
+2025-Dec-05 03:41:08.941023
+Error response from daemon: No such container: lgg4c488s4ks8gk0cwoo80cc
