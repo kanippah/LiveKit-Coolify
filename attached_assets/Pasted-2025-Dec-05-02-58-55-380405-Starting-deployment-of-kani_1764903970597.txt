@@ -1,0 +1,286 @@
+2025-Dec-05 02:58:55.380405
+Starting deployment of kanippah/-live-kit--coolify:main-owgcs040c0cs48wcwkcwg4s0 to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 02:58:55.631501
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 02:58:55.787027
+[CMD]: docker stop --time=30 gs8skkck4k0so4804s4o48w0
+2025-Dec-05 02:58:55.787027
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 02:58:55.789737
+Error response from daemon: No such container: gs8skkck4k0so4804s4o48w0
+2025-Dec-05 02:58:55.915397
+[CMD]: docker rm -f gs8skkck4k0so4804s4o48w0
+2025-Dec-05 02:58:55.915397
+Error response from daemon: No such container: gs8skkck4k0so4804s4o48w0
+2025-Dec-05 02:58:56.070002
+[CMD]: docker run -d --network coolify --name gs8skkck4k0so4804s4o48w0  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 02:58:56.070002
+a2ce9b6b2ba63278de741a09cd5893de9133f754f8781d8970e0b84dee975b54
+2025-Dec-05 02:58:56.598459
+[CMD]: docker exec gs8skkck4k0so4804s4o48w0 bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://github.com/kanippah/LiveKit-Coolify refs/heads/main'
+2025-Dec-05 02:58:56.598459
+1742b8a33b8251ff6a2039c970665f9ed43d48da	refs/heads/main
+2025-Dec-05 02:58:56.614015
+----------------------------------------
+2025-Dec-05 02:58:56.625124
+Importing kanippah/LiveKit-Coolify:main (commit sha 1742b8a33b8251ff6a2039c970665f9ed43d48da) to /artifacts/gs8skkck4k0so4804s4o48w0.
+2025-Dec-05 02:58:56.817359
+[CMD]: docker exec gs8skkck4k0so4804s4o48w0 bash -c 'git clone --depth=1 --recurse-submodules --shallow-submodules -b 'main' 'https://github.com/kanippah/LiveKit-Coolify' '/artifacts/gs8skkck4k0so4804s4o48w0' && cd '/artifacts/gs8skkck4k0so4804s4o48w0' && if [ -f .gitmodules ]; then sed -i "s#git@\(.*\):#https://\1/#g" '/artifacts/gs8skkck4k0so4804s4o48w0'/.gitmodules || true && git submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive --depth=1; fi && cd '/artifacts/gs8skkck4k0so4804s4o48w0' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2025-Dec-05 02:58:56.817359
+Cloning into '/artifacts/gs8skkck4k0so4804s4o48w0'...
+2025-Dec-05 02:58:57.515529
+[CMD]: docker exec gs8skkck4k0so4804s4o48w0 bash -c 'cd /artifacts/gs8skkck4k0so4804s4o48w0 && git log -1 1742b8a33b8251ff6a2039c970665f9ed43d48da --pretty=%B'
+2025-Dec-05 02:58:57.515529
+Fix errors when deploying CRM containers to the server
+2025-Dec-05 02:58:57.515529
+2025-Dec-05 02:58:57.515529
+Correct issues with Docker container management and network configuration during CRM deployment.
+2025-Dec-05 02:58:57.515529
+2025-Dec-05 02:58:57.515529
+Replit-Commit-Author: Agent
+2025-Dec-05 02:58:57.515529
+Replit-Commit-Session-Id: f4d82ec1-9636-4164-9cd7-ce68160616d4
+2025-Dec-05 02:58:57.515529
+Replit-Commit-Checkpoint-Type: full_checkpoint
+2025-Dec-05 02:58:57.515529
+Replit-Commit-Event-Id: 46ceee70-6d8c-4373-b584-35beb18e7ee7
+2025-Dec-05 02:58:57.515529
+Replit-Helium-Checkpoint-Created: true
+2025-Dec-05 02:58:58.914649
+Pulling & building required images.
+2025-Dec-05 02:58:58.935499
+Creating build-time .env file in /artifacts (outside Docker context).
+2025-Dec-05 02:58:59.513778
+[CMD]: docker exec gs8skkck4k0so4804s4o48w0 bash -c 'cat /artifacts/build-time.env'
+2025-Dec-05 02:58:59.513778
+SOURCE_COMMIT='1742b8a33b8251ff6a2039c970665f9ed43d48da'
+2025-Dec-05 02:58:59.513778
+COOLIFY_URL=''
+2025-Dec-05 02:58:59.513778
+COOLIFY_FQDN=''
+2025-Dec-05 02:58:59.513778
+SERVICE_NAME_LIVEKIT='livekit'
+2025-Dec-05 02:58:59.513778
+SERVICE_NAME_REDIS='redis'
+2025-Dec-05 02:58:59.513778
+SERVICE_URL_LIVEKIT='https://livekit.koaditech.com'
+2025-Dec-05 02:58:59.513778
+SERVICE_FQDN_LIVEKIT='livekit.koaditech.com'
+2025-Dec-05 02:58:59.513778
+LIVEKIT_API_KEY="livekit_2687edd1c05cfb2b"
+2025-Dec-05 02:58:59.513778
+LIVEKIT_API_SECRET="ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8"
+2025-Dec-05 02:58:59.525224
+Adding build arguments to Docker Compose build command.
+2025-Dec-05 02:59:00.711341
+Creating .env file with runtime variables for build phase.
+2025-Dec-05 02:59:01.666845
+[CMD]: docker exec gs8skkck4k0so4804s4o48w0 bash -c 'cat /artifacts/gs8skkck4k0so4804s4o48w0/.env'
+2025-Dec-05 02:59:01.666845
+SOURCE_COMMIT=1742b8a33b8251ff6a2039c970665f9ed43d48da
+2025-Dec-05 02:59:01.666845
+COOLIFY_URL=
+2025-Dec-05 02:59:01.666845
+COOLIFY_FQDN=
+2025-Dec-05 02:59:01.666845
+SERVICE_URL_LIVEKIT=https://livekit.koaditech.com
+2025-Dec-05 02:59:01.666845
+SERVICE_FQDN_LIVEKIT=livekit.koaditech.com
+2025-Dec-05 02:59:01.666845
+SERVICE_NAME_LIVEKIT=livekit
+2025-Dec-05 02:59:01.666845
+SERVICE_NAME_REDIS=redis
+2025-Dec-05 02:59:01.666845
+LIVEKIT_API_KEY=livekit_2687edd1c05cfb2b
+2025-Dec-05 02:59:01.666845
+LIVEKIT_API_SECRET=ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8
+2025-Dec-05 02:59:01.666845
+HOST=0.0.0.0
+2025-Dec-05 02:59:01.920677
+Removing old containers.
+2025-Dec-05 02:59:02.134508
+Starting new application.
+2025-Dec-05 02:59:03.660407
+[CMD]: docker exec gs8skkck4k0so4804s4o48w0 bash -c 'SOURCE_COMMIT=1742b8a33b8251ff6a2039c970665f9ed43d48da COOLIFY_BRANCH=main COOLIFY_RESOURCE_UUID=dsogkg40gw88cokwscck808w COOLIFY_CONTAINER_NAME=dsogkg40gw88cokwscck808w-025854433792  docker compose --env-file /artifacts/gs8skkck4k0so4804s4o48w0/.env --project-name dsogkg40gw88cokwscck808w --project-directory /artifacts/gs8skkck4k0so4804s4o48w0 -f /artifacts/gs8skkck4k0so4804s4o48w0/docker-compose.yaml up -d'
+2025-Dec-05 02:59:03.660407
+redis Pulling
+2025-Dec-05 02:59:03.660407
+livekit Pulling
+2025-Dec-05 02:59:03.848870
+2d35ebdb57d9 Pulling fs layer
+2025-Dec-05 02:59:03.848870
+d570b867ef4f Pulling fs layer
+2025-Dec-05 02:59:03.868972
+f637881d1138 Already exists
+2025-Dec-05 02:59:03.873701
+41b37988a695 Pulling fs layer
+2025-Dec-05 02:59:03.873701
+efaf1875f3f4 Pulling fs layer
+2025-Dec-05 02:59:03.873701
+d3bc3d49f6e9 Pulling fs layer
+2025-Dec-05 02:59:03.873701
+2b47d394d4af Pulling fs layer
+2025-Dec-05 02:59:03.873701
+678f417a42e4 Pulling fs layer
+2025-Dec-05 02:59:03.873701
+4f4fb700ef54 Pulling fs layer
+2025-Dec-05 02:59:03.873701
+016ff0019905 Pulling fs layer
+2025-Dec-05 02:59:03.873701
+efaf1875f3f4 Waiting
+2025-Dec-05 02:59:03.873701
+d3bc3d49f6e9 Waiting
+2025-Dec-05 02:59:03.873701
+2b47d394d4af Waiting
+2025-Dec-05 02:59:03.873701
+678f417a42e4 Waiting
+2025-Dec-05 02:59:03.873701
+4f4fb700ef54 Waiting
+2025-Dec-05 02:59:03.873701
+016ff0019905 Waiting
+2025-Dec-05 02:59:03.930024
+2d35ebdb57d9 Downloading [>                                                  ]  38.35kB/3.802MB
+2025-Dec-05 02:59:03.946786
+d570b867ef4f Downloading [>                                                  ]  303.1kB/29.68MB
+2025-Dec-05 02:59:03.960737
+2d35ebdb57d9 Downloading [==================================================>]  3.802MB/3.802MB
+2025-Dec-05 02:59:03.960737
+2d35ebdb57d9 Download complete
+2025-Dec-05 02:59:03.960737
+2d35ebdb57d9 Extracting [>                                                  ]  65.54kB/3.802MB
+2025-Dec-05 02:59:03.975417
+41b37988a695 Downloading [==================================================>]     949B/949B
+2025-Dec-05 02:59:03.975417
+41b37988a695 Verifying Checksum
+2025-Dec-05 02:59:03.975417
+41b37988a695 Download complete
+2025-Dec-05 02:59:03.975417
+41b37988a695 Extracting [==================================================>]     949B/949B
+2025-Dec-05 02:59:03.975417
+41b37988a695 Extracting [==================================================>]     949B/949B
+2025-Dec-05 02:59:03.994798
+41b37988a695 Pull complete
+2025-Dec-05 02:59:04.035940
+d570b867ef4f Downloading [==================>                                ]  11.01MB/29.68MB
+2025-Dec-05 02:59:04.058536
+2d35ebdb57d9 Extracting [=====================================>             ]  2.818MB/3.802MB
+2025-Dec-05 02:59:04.074689
+2d35ebdb57d9 Extracting [==================================================>]  3.802MB/3.802MB
+2025-Dec-05 02:59:04.082817
+efaf1875f3f4 Downloading [>                                                  ]   2.32kB/173.2kB
+2025-Dec-05 02:59:04.087315
+efaf1875f3f4 Verifying Checksum
+2025-Dec-05 02:59:04.087315
+efaf1875f3f4 Extracting [=========>                                         ]  32.77kB/173.2kB
+2025-Dec-05 02:59:04.097895
+d3bc3d49f6e9 Downloading [>                                                  ]  10.95kB/1.003MB
+2025-Dec-05 02:59:04.102238
+efaf1875f3f4 Extracting [==================================================>]  173.2kB/173.2kB
+2025-Dec-05 02:59:04.110892
+d3bc3d49f6e9 Verifying Checksum
+2025-Dec-05 02:59:04.110892
+d3bc3d49f6e9 Download complete
+2025-Dec-05 02:59:04.115992
+2d35ebdb57d9 Pull complete
+2025-Dec-05 02:59:04.123709
+efaf1875f3f4 Extracting [==================================================>]  173.2kB/173.2kB
+2025-Dec-05 02:59:04.139698
+d570b867ef4f Downloading [=====================================>             ]  22.34MB/29.68MB
+2025-Dec-05 02:59:04.202504
+d570b867ef4f Verifying Checksum
+2025-Dec-05 02:59:04.206635
+d570b867ef4f Download complete
+2025-Dec-05 02:59:04.215361
+678f417a42e4 Downloading [==================================================>]      98B/98B
+2025-Dec-05 02:59:04.215361
+678f417a42e4 Verifying Checksum
+2025-Dec-05 02:59:04.215361
+678f417a42e4 Download complete
+2025-Dec-05 02:59:04.215361
+d570b867ef4f Extracting [>                                                  ]  327.7kB/29.68MB
+2025-Dec-05 02:59:04.226008
+2b47d394d4af Downloading [>                                                  ]  78.22kB/7.6MB
+2025-Dec-05 02:59:04.249263
+efaf1875f3f4 Pull complete
+2025-Dec-05 02:59:04.253588
+d3bc3d49f6e9 Extracting [=>                                                 ]  32.77kB/1.003MB
+2025-Dec-05 02:59:04.282433
+d3bc3d49f6e9 Extracting [==================================================>]  1.003MB/1.003MB
+2025-Dec-05 02:59:04.287451
+d3bc3d49f6e9 Extracting [==================================================>]  1.003MB/1.003MB
+2025-Dec-05 02:59:04.294682
+d3bc3d49f6e9 Pull complete
+2025-Dec-05 02:59:04.314691
+016ff0019905 Downloading [==================================================>]     579B/579B
+2025-Dec-05 02:59:04.314691
+016ff0019905 Verifying Checksum
+2025-Dec-05 02:59:04.314691
+016ff0019905 Download complete
+2025-Dec-05 02:59:04.319332
+d570b867ef4f Extracting [========>                                          ]  4.915MB/29.68MB
+2025-Dec-05 02:59:04.328220
+2b47d394d4af Downloading [======================>                            ]  3.449MB/7.6MB
+2025-Dec-05 02:59:04.335697
+4f4fb700ef54 Downloading [==================================================>]      32B/32B
+2025-Dec-05 02:59:04.335697
+4f4fb700ef54 Verifying Checksum
+2025-Dec-05 02:59:04.335697
+4f4fb700ef54 Download complete
+2025-Dec-05 02:59:04.421137
+d570b867ef4f Extracting [===================>                               ]  11.47MB/29.68MB
+2025-Dec-05 02:59:04.435628
+2b47d394d4af Downloading [==============================================>    ]  7.029MB/7.6MB
+2025-Dec-05 02:59:04.443006
+2b47d394d4af Downloading [==================================================>]    7.6MB/7.6MB
+2025-Dec-05 02:59:04.443006
+2b47d394d4af Download complete
+2025-Dec-05 02:59:04.447266
+2b47d394d4af Extracting [>                                                  ]   98.3kB/7.6MB
+2025-Dec-05 02:59:04.522280
+d570b867ef4f Extracting [==========================================>        ]  25.23MB/29.68MB
+2025-Dec-05 02:59:04.545722
+2b47d394d4af Extracting [=====================================>             ]  5.702MB/7.6MB
+2025-Dec-05 02:59:04.572825
+2b47d394d4af Extracting [==================================================>]    7.6MB/7.6MB
+2025-Dec-05 02:59:04.580374
+d570b867ef4f Extracting [==================================================>]  29.68MB/29.68MB
+2025-Dec-05 02:59:04.586991
+2b47d394d4af Pull complete
+2025-Dec-05 02:59:04.593307
+678f417a42e4 Extracting [==================================================>]      98B/98B
+2025-Dec-05 02:59:04.593307
+d570b867ef4f Pull complete
+2025-Dec-05 02:59:04.593307
+678f417a42e4 Extracting [==================================================>]      98B/98B
+2025-Dec-05 02:59:04.602621
+678f417a42e4 Pull complete
+2025-Dec-05 02:59:04.608176
+livekit Pulled
+2025-Dec-05 02:59:04.608176
+4f4fb700ef54 Extracting [==================================================>]      32B/32B
+2025-Dec-05 02:59:04.608176
+4f4fb700ef54 Extracting [==================================================>]      32B/32B
+2025-Dec-05 02:59:04.614968
+4f4fb700ef54 Pull complete
+2025-Dec-05 02:59:04.619494
+016ff0019905 Extracting [==================================================>]     579B/579B
+2025-Dec-05 02:59:04.619494
+016ff0019905 Extracting [==================================================>]     579B/579B
+2025-Dec-05 02:59:04.633215
+016ff0019905 Pull complete
+2025-Dec-05 02:59:04.648247
+redis Pulled
+2025-Dec-05 02:59:04.656548
+Container redis-dsogkg40gw88cokwscck808w-025858687772  Creating
+2025-Dec-05 02:59:04.722835
+Container redis-dsogkg40gw88cokwscck808w-025858687772  Created
+2025-Dec-05 02:59:04.722835
+Container livekit-dsogkg40gw88cokwscck808w-025858660364  Creating
+2025-Dec-05 02:59:04.858641
+Container livekit-dsogkg40gw88cokwscck808w-025858660364  Created
+2025-Dec-05 02:59:04.865162
+Container redis-dsogkg40gw88cokwscck808w-025858687772  Starting
+2025-Dec-05 02:59:04.973330
+Container redis-dsogkg40gw88cokwscck808w-025858687772  Started
+2025-Dec-05 02:59:04.973330
+Container livekit-dsogkg40gw88cokwscck808w-025858660364  Starting
