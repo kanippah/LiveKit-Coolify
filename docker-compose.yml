@@ -16,7 +16,7 @@ services:
       - "7880:7880/tcp"
       - "7881:7881/tcp"
       - "50000-60000:50000-60000/udp"
-    entrypoint: /bin/sh /start.sh
+    entrypoint: /bin/bash /start.sh
 
   redis:
     image: redis:6-alpine
