@@ -1,0 +1,55 @@
+root@CRM-ubuntu-2gb-ash-1:~# sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: e>
+     Active: active (running) since Fri 2025-12-05 03:31:20 UTC; 12min ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 897 (dockerd)
+      Tasks: 80
+     Memory: 226.6M (peak: 248.6M)
+        CPU: 9.060s
+     CGroup: /system.slice/docker.service
+             ├─ 897 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/cont>
+             ├─8671 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-por>
+             ├─8678 /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 80 >
+             ├─8684 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-por>
+             ├─8693 /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 443>
+             ├─8700 /usr/bin/docker-proxy -proto udp -host-ip 0.0.0.0 -host-por>
+             ├─8707 /usr/bin/docker-proxy -proto udp -host-ip :: -host-port 443>
+             ├─8715 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-por>
+             └─8722 /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 808>
+
+Dec 05 03:41:05 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:41:05.40>
+Dec 05 03:41:06 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:41:06.85>
+Dec 05 03:41:06 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:41:06.97>
+Dec 05 03:41:07 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:41:07.05>
+Dec 05 03:42:32 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:42:32.56>
+Dec 05 03:42:37 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:42:37.40>
+Dec 05 03:42:37 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:42:37.51>
+Dec 05 03:42:38 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:42:38.15>
+Dec 05 03:42:38 CRM-ubuntu-2gb-ash-1 dockerd[897]: time="2025-12-05T03:42:38.41>
+root@CRM-ubuntu-2gb-ash-1:~# sudo systemctl restart docker
+root@CRM-ubuntu-2gb-ash-1:~# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           382M  1.2M  381M   1% /run
+/dev/sda1        38G  6.3G   30G  18% /
+tmpfs           1.9G     0  1.9G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/sda15      253M  146K  252M   1% /boot/efi
+tmpfs           382M   12K  382M   1% /run/user/0
+overlay          38G  6.3G   30G  18% /var/lib/docker/overlay2/936c81bc31226134372bd9a59ba2c42f5bd071971640accd9f933126f86076ee/merged
+overlay          38G  6.3G   30G  18% /var/lib/docker/overlay2/8a5039a8d2fdb7b20d9393fd6376b1741645f60be64f112dd9956b36f0e42132/merged
+overlay          38G  6.3G   30G  18% /var/lib/docker/overlay2/6d049c568ec89f3eef8347afe28aec38395a275d91db71c13c7e75017f580d22/merged
+root@CRM-ubuntu-2gb-ash-1:~# docker system df
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          6         5         883.9MB   298MB (33%)
+Containers      5         3         63B       0B (0%)
+Local Volumes   3         2         41.19MB   93B (0%)
+Build Cache     0         0         0B        0B
+root@CRM-ubuntu-2gb-ash-1:~# nslookup livekit.koaditech.com
+Server:         127.0.0.53
+Address:        127.0.0.53#53
+
+Non-authoritative answer:
+Name:   livekit.koaditech.com
+Address: 178.156.183.51
