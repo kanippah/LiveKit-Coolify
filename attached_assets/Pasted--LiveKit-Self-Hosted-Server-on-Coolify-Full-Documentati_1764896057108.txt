@@ -1,0 +1,298 @@
+# LiveKit Self-Hosted Server on Coolify — Full Documentation
+
+This documentation explains **everything you need to do** to deploy a production LiveKit server using **Coolify**, with your configuration files managed in **Replit**, pushed to **GitHub**, and then pulled automatically by **Coolify**.
+
+After reading this, you’ll be able to:
+
+* Create the LiveKit server configuration files
+* Use Replit to manage the project
+* Push the project to GitHub
+* Deploy the server on Coolify using Docker Compose
+* Configure DNS, SSL, and firewall rules
+* Connect your apps to your LiveKit server via WSS
+
+---
+
+# 1. Overview of What You're Building
+
+You are deploying a **production-ready LiveKit server** on your own VPS through **Coolify**. The setup will include:
+
+* **LiveKit server** (WebRTC SFU + signaling)
+* **Redis** (required by LiveKit)
+* Configuration for:
+
+  * HTTPS (via Coolify + Traefik)
+  * Signaling ports (TCP)
+  * Media ports (UDP)
+  * Real API key & secret
+* A working endpoint such as:
+
+```
+wss://livekit.yourdomain.com
+```
+
+This system will allow your apps (web, mobile, AI agents, bots, etc.) to join rooms, publish audio/video, and interact over WebRTC.
+
+---
+
+# 2. DNS Requirements
+
+Create a DNS record:
+
+* Type: **A**
+* Name: `livekit`
+* Value: your **Coolify server IP**
+
+Example:
+
+```
+livekit.yourdomain.com → 123.45.67.89
+```
+
+This will be your **secure WebSocket URL**:
+
+```
+wss://livekit.yourdomain.com
+```
+
+---
+
+# 3. Create the Project in Replit
+
+### 3.1 Create two files:
+
+Inside Replit, create:
+
+* `livekit.yaml`
+* `docker-compose.yml`
+
+These are the only files needed for the backend.
+
+---
+
+# 4. LiveKit Config File (`livekit.yaml`)
+
+Paste this into Replit:
+
+```
+port: 7880
+log_level: info
+
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 60000
+  use_external_ip: true
+
+redis:
+  address: redis:6379
+
+keys:
+  PROD_API_KEY: PROD_SUPER_SECRET_KEY_VALUE
+
+room:
+  auto_create: true
+```
+
+### What this file does
+
+* `port: 7880` → Main signaling port
+* `tcp_port: 7881` → TCP fallback for signaling
+* `50000–60000/udp` → Media ports
+* `use_external_ip: true` → Ensures correct IP for ICE candidates
+* `redis` → Needed by LiveKit internally
+* `keys` → API key & secret used to generate JWT tokens
+
+### **Important:** Replace the key & secret:
+
+```
+PROD_API_KEY: anyRandomKey
+PROD_API_SECRET: aLongRandomSecretValue
+```
+
+You will use these in your app when generating tokens.
+
+---
+
+# 5. Docker Compose File (`docker-compose.yml`)
+
+Paste this into Replit:
+
+```
+version: "3.9"
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config /etc/livekit.yaml
+    restart: unless-stopped
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml:ro
+    depends_on:
+      - redis
+    ports:
+      - "7880:7880/tcp"
+      - "7881:7881/tcp"
+      - "50000-60000:50000-60000/udp"
+
+  redis:
+    image: redis:6-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    restart: unless-stopped
+```
+
+### What this file does
+
+* Runs the official LiveKit server image
+* Loads your config file into the container
+* Exposes required TCP and UDP ports
+* Runs Redis as a dependency
+* Ensures the service auto-restarts
+
+---
+
+# 6. Push the Project to GitHub from Replit
+
+1. Click the **Git** icon in Replit
+2. Click **Connect to GitHub**
+3. Create a new repo, for example:
+
+   * `livekit-server`
+4. Commit & push
+
+Your GitHub repo will now contain:
+
+* `livekit.yaml`
+* `docker-compose.yml`
+* Replit metadata
+
+---
+
+# 7. Deploy on Coolify
+
+### 7.1 Create Coolify App
+
+1. Go to Coolify dashboard
+2. Click **New → Application**
+3. Select **Git Repository**
+4. Enter your GitHub repo URL
+5. Set type: **Docker Compose**
+6. Set Compose file path:
+
+   * `docker-compose.yml`
+7. Save
+
+Coolify will now understand this is a multi-container app.
+
+---
+
+# 8. Configure Domain + SSL in Coolify
+
+Inside your Coolify application:
+
+1. Go to **Domains**
+2. Add:
+
+   * Domain: `livekit.yourdomain.com`
+   * Internal port: `7880`
+3. Enable **HTTPS** via Let’s Encrypt
+
+Coolify’s Traefik proxy will:
+
+* Terminate SSL
+* Forward secure WebSocket traffic to your LiveKit container
+
+---
+
+# 9. Firewall Configuration
+
+On your VPS, open these ports:
+
+```
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 7880/tcp
+sudo ufw allow 7881/tcp
+sudo ufw allow 50000:60000/udp
+```
+
+Without this, users may not be able to send/receive audio/video.
+
+---
+
+# 10. Deploy the Application in Coolify
+
+1. Go to your app in Coolify
+2. Click **Deploy**
+3. Watch logs until:
+
+   * Redis starts
+   * LiveKit server starts with your config
+
+Once successful, LiveKit is live.
+
+---
+
+# 11. Test Your Server
+
+Test signaling endpoint:
+
+```
+curl -v https://livekit.yourdomain.com
+```
+
+If SSL is working, you will get an HTTP response.
+
+Your WebSocket URL for apps is:
+
+```
+wss://livekit.yourdomain.com
+```
+
+Use your API key & secret to generate JWT tokens.
+
+---
+
+# 12. Next Steps (Optional)
+
+After the server works, you may:
+
+* Deploy **LiveKit Meet** UI or build your own
+* Deploy a **token generator service** (Python, Node, PHP)
+* Connect AI agents or SIP gateways
+
+---
+
+# 13. Summary Checklist
+
+### ✔ Replit
+
+* `livekit.yaml` created
+* `docker-compose.yml` created
+* Repo pushed to GitHub
+
+### ✔ Coolify
+
+* App created from GitHub
+* Domain mapped
+* HTTPS enabled
+* Firewall opened
+* Deployment successful
+
+### ✔ LiveKit
+
+* Accessible at: `wss://livekit.yourdomain.com`
+* Custom API key & secret configured
+* Ready for production use
+
+---
+
+# Your LiveKit Server Is Ready
+
+You now have a **fully self-hosted, production-ready LiveKit server**, managed via Coolify, with config stored in Replit.
+
+If you want, I can generate:
+
+* A **token generator** (Python, PHP, Node)
+* A **test client** you can run in your browser
+* A full **LiveKit Meet UI deployment** to go with your server.

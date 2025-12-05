@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config /etc/livekit.yaml
+    restart: unless-stopped
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml:ro
+    depends_on:
+      - redis
+    ports:
+      - "7880:7880/tcp"
+      - "7881:7881/tcp"
+      - "50000-60000:50000-60000/udp"
+
+  redis:
+    image: redis:6-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    restart: unless-stopped
