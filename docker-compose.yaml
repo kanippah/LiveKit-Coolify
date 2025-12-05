@@ -1,16 +1,31 @@
 version: "3.9"
 
 services:
+  caddy:
+    image: livekit/caddyl4
+    command: run --config /etc/caddy.yaml --adapter yaml
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy.yaml:/etc/caddy.yaml
+      - caddy_data:/data
+    depends_on:
+      - livekit
+
   livekit:
     image: livekit/livekit-server:latest
     command: --config /etc/livekit.yaml
     restart: unless-stopped
+    ports:
+      - "7880:7880"
+      - "50000-60000:50000-60000/udp"
     volumes:
       - ./livekit.yaml:/etc/livekit.yaml
     depends_on:
       - redis
-    labels:
-      coolify.enabled: "true"
 
   redis:
     image: redis:7-alpine
@@ -22,3 +37,4 @@ services:
 
 volumes:
   redis_data:
+  caddy_data:
