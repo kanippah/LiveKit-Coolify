@@ -1,0 +1,42 @@
+2025-Dec-05 02:52:14.891504
+Starting deployment of kanippah/CRM:main to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 02:52:15.713943
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 02:52:16.108092
+[CMD]: docker stop --time=30 tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:16.108092
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 02:52:16.111753
+Error response from daemon: No such container: tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:16.519879
+[CMD]: docker rm -f tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:16.519879
+Error response from daemon: No such container: tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:16.965982
+[CMD]: docker run -d --network coolify --name tcck04g8kw840488s4s0csos  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 02:52:16.965982
+157a4e186af37651fc9b046198b8fbef905fe80cf943bdb977327385b6a1e6cf
+2025-Dec-05 02:52:17.805530
+Starting deployment of kanippah/CRM:main to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 02:52:18.082680
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 02:52:18.264751
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 02:52:18.403429
+tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:18.554304
+Error response from daemon: No such container: tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:18.736244
+1ee63e95b5a71df253cbcc7edab53761205bbd44ae2b5d62b7b445977b98c2f0
+2025-Dec-05 02:52:18.897620
+Gracefully shutting down build container: tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:19.329933
+[CMD]: docker stop --time=30 tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:19.329933
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 02:52:19.449078
+tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:19.855295
+[CMD]: docker rm -f tcck04g8kw840488s4s0csos
+2025-Dec-05 02:52:19.855295
+Error response from daemon: No such container: tcck04g8kw840488s4s0csos
