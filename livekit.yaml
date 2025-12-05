@@ -1,9 +1,12 @@
 port: 7880
+bind_addresses:
+  - "0.0.0.0"
 
 rtc:
   port_range_start: 50000
   port_range_end: 60000
   use_external_ip: true
+  auto_use_external_ip: true
 
 redis:
   address: redis:6379
@@ -13,3 +16,6 @@ keys:
 
 logging:
   level: info
+
+webhook:
+  api_key: ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8
