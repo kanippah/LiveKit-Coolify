@@ -1,0 +1,28 @@
+oot@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose down
+Stopping livekit_livekit_1 ... done
+Stopping livekit_redis_1   ... done
+Removing livekit_livekit_1 ... done
+Removing livekit_redis_1   ... done
+Removing network livekit_default
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose up -d
+Creating network "livekit_default" with the default driver
+Creating livekit_redis_1 ... done
+Creating livekit_livekit_1 ... done
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit# docker-compose logs
+Attaching to livekit_livekit_1, livekit_redis_1
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+livekit_1  | could not parse config: yaml: unmarshal errors:
+livekit_1  |   line 9: field auto_use_external_ip not found in type config.RTCConfig
+redis_1    | 1:C 05 Dec 2025 04:14:40.371 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+root@CRM-ubuntu-2gb-ash-1:/opt/livekit#
