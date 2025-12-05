@@ -1,0 +1,112 @@
+2025-Dec-05 03:42:31.733437
+Starting deployment of kanippah/-live-kit--coolify:main-owgcs040c0cs48wcwkcwg4s0 to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 03:42:31.975803
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 03:42:32.124400
+[CMD]: docker stop --time=30 css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:32.124400
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 03:42:32.127373
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:32.288966
+[CMD]: docker rm -f css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:32.288966
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:32.462449
+[CMD]: docker run -d --network coolify --name css8ggksw8ogws0c40ccsssg  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 03:42:32.462449
+7c28fc5dc17ae1a013e85760f8468b4784f0fc2eed95eaf778e36825f4d41f0f
+2025-Dec-05 03:42:33.078086
+[CMD]: docker exec css8ggksw8ogws0c40ccsssg bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://github.com/kanippah/LiveKit-Coolify refs/heads/main'
+2025-Dec-05 03:42:33.078086
+2706ae652ba82d31a9ce45dd55227f7cdea3427a	refs/heads/main
+2025-Dec-05 03:42:33.093972
+----------------------------------------
+2025-Dec-05 03:42:33.105060
+Importing kanippah/LiveKit-Coolify:main (commit sha 2706ae652ba82d31a9ce45dd55227f7cdea3427a) to /artifacts/css8ggksw8ogws0c40ccsssg.
+2025-Dec-05 03:42:33.316312
+[CMD]: docker exec css8ggksw8ogws0c40ccsssg bash -c 'git clone --depth=1 --recurse-submodules --shallow-submodules -b 'main' 'https://github.com/kanippah/LiveKit-Coolify' '/artifacts/css8ggksw8ogws0c40ccsssg' && cd '/artifacts/css8ggksw8ogws0c40ccsssg' && if [ -f .gitmodules ]; then sed -i "s#git@\(.*\):#https://\1/#g" '/artifacts/css8ggksw8ogws0c40ccsssg'/.gitmodules || true && git submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive --depth=1; fi && cd '/artifacts/css8ggksw8ogws0c40ccsssg' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2025-Dec-05 03:42:33.316312
+Cloning into '/artifacts/css8ggksw8ogws0c40ccsssg'...
+2025-Dec-05 03:42:34.056516
+[CMD]: docker exec css8ggksw8ogws0c40ccsssg bash -c 'cd /artifacts/css8ggksw8ogws0c40ccsssg && git log -1 2706ae652ba82d31a9ce45dd55227f7cdea3427a --pretty=%B'
+2025-Dec-05 03:42:34.056516
+Fix Redis configuration to use native format
+2025-Dec-05 03:42:34.056516
+2025-Dec-05 03:42:34.056516
+Change docker-compose.yaml to reference redis.conf instead of redis.yaml, and recreate redis.conf to ensure Redis uses its native configuration format.
+2025-Dec-05 03:42:34.056516
+2025-Dec-05 03:42:34.056516
+Replit-Commit-Author: Agent
+2025-Dec-05 03:42:34.056516
+Replit-Commit-Session-Id: f4d82ec1-9636-4164-9cd7-ce68160616d4
+2025-Dec-05 03:42:34.056516
+Replit-Commit-Checkpoint-Type: full_checkpoint
+2025-Dec-05 03:42:34.056516
+Replit-Commit-Event-Id: 908d8844-bad5-428d-90c9-2484cdb4c95a
+2025-Dec-05 03:42:34.056516
+Replit-Helium-Checkpoint-Created: true
+2025-Dec-05 03:42:35.508019
+Pulling & building required images.
+2025-Dec-05 03:42:35.530344
+Creating build-time .env file in /artifacts (outside Docker context).
+2025-Dec-05 03:42:35.933156
+[CMD]: docker exec css8ggksw8ogws0c40ccsssg bash -c 'cat /artifacts/build-time.env'
+2025-Dec-05 03:42:35.933156
+SOURCE_COMMIT='2706ae652ba82d31a9ce45dd55227f7cdea3427a'
+2025-Dec-05 03:42:35.933156
+COOLIFY_URL=''
+2025-Dec-05 03:42:35.933156
+COOLIFY_FQDN=''
+2025-Dec-05 03:42:35.933156
+SERVICE_NAME_CADDY='caddy'
+2025-Dec-05 03:42:35.933156
+SERVICE_NAME_LIVEKIT='livekit'
+2025-Dec-05 03:42:35.933156
+SERVICE_NAME_REDIS='redis'
+2025-Dec-05 03:42:35.933156
+SERVICE_URL_LIVEKIT='https://livekit.koaditech.com'
+2025-Dec-05 03:42:35.933156
+SERVICE_FQDN_LIVEKIT='livekit.koaditech.com'
+2025-Dec-05 03:42:35.933156
+LIVEKIT_API_KEY="livekit_2687edd1c05cfb2b"
+2025-Dec-05 03:42:35.933156
+LIVEKIT_API_SECRET="ONqu0KkPr6P625PxAR7ovlXbeekGod43oFku2DpI2g8"
+2025-Dec-05 03:42:35.947067
+Adding build arguments to Docker Compose build command.
+2025-Dec-05 03:42:36.770536
+Starting deployment of kanippah/-live-kit--coolify:main-owgcs040c0cs48wcwkcwg4s0 to dark-donkey-akggwww4ww000ws80wg4g00o.
+2025-Dec-05 03:42:36.896020
+Creating .env file with runtime variables for build phase.
+2025-Dec-05 03:42:37.185162
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2025-Dec-05 03:42:37.520280
+[CMD]: docker exec css8ggksw8ogws0c40ccsssg bash -c 'cat /artifacts/css8ggksw8ogws0c40ccsssg/.env'
+2025-Dec-05 03:42:37.520280
+Error response from daemon: container 7c28fc5dc17ae1a013e85760f8468b4784f0fc2eed95eaf778e36825f4d41f0f is not running
+2025-Dec-05 03:42:37.742335
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:38.011618
+f0d5ad74ab09d6dca9bda027bd61d7fd6275eee261f395b840a6d9860495c693
+2025-Dec-05 03:42:38.162509
+Gracefully shutting down build container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:38.518033
+[CMD]: docker exec css8ggksw8ogws0c40ccsssg bash -c 'mkdir -p /artifacts/css8ggksw8ogws0c40ccsssg'
+2025-Dec-05 03:42:38.518033
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:38.571241
+Oops something is not okay, are you okay? 😢
+2025-Dec-05 03:42:38.603823
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:38.660314
+Gracefully shutting down build container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:38.970122
+[CMD]: docker stop --time=30 css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:38.970122
+Flag --time has been deprecated, use --timeout instead
+2025-Dec-05 03:42:38.975908
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:39.264799
+[CMD]: docker rm -f css8ggksw8ogws0c40ccsssg
+2025-Dec-05 03:42:39.264799
+Error response from daemon: No such container: css8ggksw8ogws0c40ccsssg
